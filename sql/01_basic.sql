@@ -115,13 +115,103 @@
 
 --페이징 개념 정리하기
 
-SELECT *
-FROM orders
-ORDER BY order_date DESC;
+-- SELECT *
+-- FROM orders
+-- ORDER BY order_date DESC;
 
-SELECT *
-FROM orders
-ORDER BY order_date DESC
-LIMIT 2 OFFSET 1;
+-- SELECT *
+-- FROM orders
+-- ORDER BY order_date DESC
+-- LIMIT 2 OFFSET 1;
 
 --OFFSET : 건너뛸 행 수 지정(1은 1행 건너뛰기)
+
+
+
+--문제 풀며 복습하기
+--1 서비스에 가입한 유저들의 정보를 담을 테이블 생성(고유id, 이름, 가입 시기)
+-- CREATE TABLE user_list (
+--     user_id INTEGER PRIMARY KEY,
+--     name TEXT,
+--     signup_date DATE
+-- );
+
+-- SELECT * 
+-- FROM user_list;
+
+--2 user_list 테이블에 유저 정보 삽입
+-- INSERT INTO user_list VALUES
+--     (1, 'Eve', '2024-01-15'),
+--     (2, 'Frank', '2024-02-20'),
+--     (3, 'Grace', NULL);
+
+-- SELECT *
+-- FROM user_list;
+
+--3 테이블에서 id와 가입 시기만 조회하기
+-- SELECT
+--     user_id,
+--     signup_date
+-- FROM user_list;
+
+--4 가입 시기가 2024년 2월 이후인 유저 조회하기
+-- SELECT *
+-- FROM user_list
+-- WHERE signup_date >= '2024-02-01';
+
+--5 테이블에서 id가 1또는 3인 유저 조회하기(In 사용)
+-- SELECT *
+-- FROM user_list
+-- WHERE user_id
+-- IN (1,3);
+
+--6 이름이 'F'로 시작하는 유저 조회하기
+-- SELECT *
+-- FROM user_list
+-- WHERE name LIKE 'f%';
+
+--7 이름에 'ac'가 포함되지 않은 유저 조회하기
+-- SELECT *
+-- FROM user_list
+-- WHERE name NOT LIKE '%ac%';
+
+-- INSERT INTO user_list VALUES
+--     (4, 'Eve', '2024-04-23');
+
+--8 유저 리스트에서 유저들의 이름을 중복없이 조회하기
+-- SELECT DISTINCT name
+-- FROM user_list;
+
+--9 가입 시기가 오래된 유저부터 조회하기
+-- SELECT *
+-- FROM user_list
+-- ORDER BY signup_date DESC;
+
+--10 가입 시기가 NULL인 유저 제외하고 조회하기
+-- SELECT *
+-- FROM user_list
+-- WHERE signup_date IS NOT NULL;
+
+--11 user_id를 id로 바꿔서 조회하기(AS 사용)
+-- SELECT user_id AS id
+-- FROM user_list;
+
+--12 id에 2를 더한 값을 조회하기
+-- SELECT user_id + 2 AS user_id
+-- FROM user_list;
+
+--14 가입시기를 월(mm)/일(dd) 형식으로 조회하기
+-- SELECT strftime('%m/%d', signup_date) AS signup_date
+-- FROM user_list;
+
+-- SELECT *
+-- FROM orders;
+
+--15 orders 테이블에서 주문 수량이 150 이상, 주문 날짜가 2023-02-01 이후인 주문을 
+--주문 날짜 기준 오름차순으로 정렬해서 최대 2개만 조회하기
+
+-- SELECT *
+-- FROM orders
+-- WHERE amount > 150 AND order_date > '2023-02-01'
+-- ORDER BY order_date ASC
+-- LIMIT 2;
