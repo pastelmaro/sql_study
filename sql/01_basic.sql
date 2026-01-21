@@ -97,3 +97,31 @@
 
 -- SELECT * FROM users WHERE signup_date IS NULL;
 -- SELECT * FROM users WHERE signup_date IS NOT NULL;
+
+--계산 컬럼 만들기
+
+-- SELECT
+--     order_id,
+--     amount,
+--     amount * 1.1 AS taxed_amount
+-- FROM orders;
+
+-- 날짜 함수 사용하기
+-- SELECT
+--     order_id,
+--     order_date,
+--     strftime('%Y-%m', order_date) as order_month
+-- FROM orders;
+
+--페이징 개념 정리하기
+
+SELECT *
+FROM orders
+ORDER BY order_date DESC;
+
+SELECT *
+FROM orders
+ORDER BY order_date DESC
+LIMIT 2 OFFSET 1;
+
+--OFFSET : 건너뛸 행 수 지정(1은 1행 건너뛰기)
