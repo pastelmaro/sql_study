@@ -78,3 +78,96 @@
 -- LEFT JOIN order_list AS o
 -- ON c.id = o.id
 -- WHERE o.id IS NULL;
+
+--고객별 총 주문 금액
+-- SELECT c.name, SUM(o.sale) AS total_order
+-- FROM client_list AS c
+-- JOIN order_list AS o
+-- ON c.id = o.id
+-- GROUP BY c.name;
+
+--1 고객과 주문 정보를 INNER JOIN을 이용하여 모든 컬럼을 조회하세요
+-- SELECT c.*, o.*
+-- FROM client_list AS c
+-- JOIN order_list AS o
+-- ON c.id = o.id;
+
+--2 고객 이름(name)과 구매 상품(goods)만 조회하세요
+-- SELECT c.name, o.goods
+-- FROM client_list AS c
+-- JOIN order_list AS o
+-- ON c.id = o.id;
+
+--3 고객 이름(name)과 구매 금액(sale)을 조회하되 컬럼명을 각각 customer_name, amount로 출력하세요
+-- SELECT c.name AS customer_name, o.sale AS amount
+-- FROM client_list AS c
+-- JOIN order_list AS o
+-- ON c.id = o.id;
+
+--4 구매 금액(sale)이 50 이상인 주문만 조회하세요
+-- SELECT c.name, o.sale
+-- FROM client_list AS c
+-- JOIN order_list AS o
+-- ON c.id = o.id
+-- WHERE o.sale >= 50;
+
+--5 상품명이 "pants"인 주문을 한 고객의 이름을 조회하세요
+-- SELECT c.name, o.goods
+-- FROM client_list AS c
+-- JOIN order_list AS o
+-- ON c.id = o.id
+-- WHERE o.goods = "pants";
+
+--6 고객의 id가 1번인 사람의 주문 내역만 조회하세요
+-- SELECT c.id, c.name, o.goods
+-- FROM client_list AS c
+-- JOIN order_list AS o
+-- ON c.id = o.id
+-- WHERE c.id = 1;
+
+--7 모든 고객을 기준으로 주문 정보를 조회하세요(주문 업는 고객도 포함)
+-- SELECT c.name, o.*
+-- FROM client_list AS c
+-- LEFT JOIN order_list AS o
+-- ON c.id = o.id;
+
+--8 주문하지 않은 고객만 조회하세요
+-- SELECT c.name, o.*
+-- FROM client_list AS c
+-- LEFT JOIN order_list AS o
+-- ON c.id = o.id
+-- WHERE o.goods IS NULL;
+
+--9 주문이 없는 고객의 이름과 전화번호(tell)를 조회하세요
+-- SELECT c.name, c.tell
+-- FROM client_list AS c
+-- LEFT JOIN order_list AS o
+-- ON c.id = o.id
+-- WHERE o.goods IS NULL;
+
+--10 고객별 총 구매 금액을 구하세요
+--출력 : name | total_sale
+-- SELECT c.name, SUM(o.sale) AS total_sale
+-- FROM client_list AS c
+-- LEFT JOIN order_list AS o
+-- ON c.id = o.id
+-- GROUP BY c.name;
+
+--13 총 구매 금액이 100 이상인 고객만 조회하세요
+-- SELECT c.name, SUM(o.sale) AS total_sale
+-- FROM client_list AS c
+-- JOIN order_list AS o
+-- ON c.id = o.id
+-- GROUP BY c.name
+-- HAVING total_sale >= 100;
+
+--14 다음을 한 번에 구하세요
+--고객이름
+--총 구매 금액
+--총 구매 금액 높은 순 정렬
+-- SELECT c.name, SUM(o.sale) AS total_sale
+-- FROM client_list AS c
+-- LEFT JOIN order_list AS o
+-- ON c.id = o.id
+-- GROUP BY c.name
+-- ORDER BY total_sale DESC;
