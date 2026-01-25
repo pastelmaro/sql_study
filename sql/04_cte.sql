@@ -81,7 +81,6 @@
 -- WITH TEMP AS (
 --     SELECT i.id, SUM(i.sale) AS total_sale
 --     FROM info AS i
---     GROUP BY id
 -- )
 -- SELECT l.name, t.total_sale
 -- FROM list AS l
@@ -96,7 +95,7 @@
 --     GROUP BY id
 -- ),
 -- each_date AS (
---     SELECT l.id, l.name, strftime("%Y-%M") AS signup_date
+--     SELECT l.id, l.name, strftime("%Y-%m") AS signup_date
 --     FROM list AS l
 --     GROUP BY id
 -- )
@@ -110,3 +109,122 @@
 -- ON l.id = t.id
 -- JOIN each_date AS e
 -- ON l.id = e.id
+
+--단게별 데이터 처리 파이프라인
+
+-- WITH
+-- raw_sales AS (
+--     SELECT *
+--     FROM info
+-- ),
+-- sales_sum AS (
+--     SELECT id, SUM(sale) AS total_sale
+--     FROM raw_sales
+--     GROUP BY id
+-- ),
+-- filtered AS (
+--     SELECT *
+--     FROM sales_sum
+--     WHERE total_sale >= 200
+-- )
+
+-- SELECT *
+-- FROM filtered;
+
+--구매하지 않은 고객 찾기
+
+-- WITH sales_user AS (
+--     SELECT id
+--     FROM info
+-- )
+
+-- SELECT l.name
+-- FROM list AS l
+-- LEFT JOIN sales_user AS s
+-- ON l.id = s.id
+-- WHERE s.id IS NULL;
+
+
+------------------
+
+-- 고객
+-- CREATE TABLE customers (
+--     customer_id INTEGER PRIMARY KEY,
+--     name TEXT,
+--     city TEXT,
+--     signup_date DATE
+-- );
+
+-- 주문
+-- CREATE TABLE orders (
+--     order_id INTEGER PRIMARY KEY,
+--     customer_id INTEGER,
+--     order_date DATE,
+--     amount INTEGER
+-- );
+
+-- 상품
+-- CREATE TABLE products (
+--     product_id INTEGER PRIMARY KEY,
+--     product_name TEXT,
+--     category TEXT,
+--     price INTEGER
+-- );
+
+-- 주문 상세
+-- CREATE TABLE order_items (
+--     order_id INTEGER,
+--     product_id INTEGER,
+--     quantity INTEGER
+-- );
+
+--데이터
+
+-- INSERT INTO customers VALUES
+-- (1,'Alice','Seoul','2025-01-02'),
+-- (2,'Bob','Busan','2025-02-10'),
+-- (3,'Chris','Seoul','2025-03-01'),
+-- (4,'David','Incheon','2025-03-15'),
+-- (5,'Emma','Seoul','2025-04-01');
+
+-- INSERT INTO orders VALUES
+-- (101,1,'2025-05-01',300),
+-- (102,1,'2025-05-03',200),
+-- (103,2,'2025-05-05',150),
+-- (104,3,'2025-05-07',500),
+-- (105,3,'2025-05-09',100);
+
+-- INSERT INTO products VALUES
+-- (1,'Shoes','Fashion',100),
+-- (2,'Pants','Fashion',150),
+-- (3,'Keyboard','Electronics',200),
+-- (4,'Mouse','Electronics',50);
+
+-- INSERT INTO order_items VALUES
+-- (101,1,1),
+-- (101,3,1),
+-- (102,2,1),
+-- (103,4,3),
+-- (104,3,2),
+-- (105,1,1);
+
+--------------------------
+
+--1 주문 테이블을 그대로 가져오는 CTE order_cte를 만들고 전체 조회
+-- WITH order_cte AS (
+--     SELECT *
+--     FROM orders
+-- )
+-- SELECT *
+-- FROM order_cte;
+
+--2 고객별 주문 금액(total_amount) 구하기
+--출력 : customer_id | total_amount
+-- WITH temp AS (
+--     SELECT customer_id, SUM(amount) AS total_amount
+--     FROM orders
+--     GROUP BY customer_id
+-- )
+
+-- SELECT *
+-- FROM temp;
