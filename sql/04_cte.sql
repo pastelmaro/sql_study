@@ -163,19 +163,19 @@
 --     amount INTEGER
 -- );
 
+-- 주문 상세
+-- CREATE TABLE order_items (
+--     order_id INTEGER,
+--     product_id INTEGER,
+--     quantity INTEGER
+-- );
+
 -- 상품
 -- CREATE TABLE products (
 --     product_id INTEGER PRIMARY KEY,
 --     product_name TEXT,
 --     category TEXT,
 --     price INTEGER
--- );
-
--- 주문 상세
--- CREATE TABLE order_items (
---     order_id INTEGER,
---     product_id INTEGER,
---     quantity INTEGER
 -- );
 
 --데이터
@@ -194,12 +194,6 @@
 -- (104,3,'2025-05-07',500),
 -- (105,3,'2025-05-09',100);
 
--- INSERT INTO products VALUES
--- (1,'Shoes','Fashion',100),
--- (2,'Pants','Fashion',150),
--- (3,'Keyboard','Electronics',200),
--- (4,'Mouse','Electronics',50);
-
 -- INSERT INTO order_items VALUES
 -- (101,1,1),
 -- (101,3,1),
@@ -207,6 +201,12 @@
 -- (103,4,3),
 -- (104,3,2),
 -- (105,1,1);
+
+-- INSERT INTO products VALUES
+-- (1,'Shoes','Fashion',100),
+-- (2,'Pants','Fashion',150),
+-- (3,'Keyboard','Electronics',200),
+-- (4,'Mouse','Electronics',50);
 
 --------------------------
 
@@ -228,3 +228,21 @@
 
 -- SELECT *
 -- FROM temp;
+
+--3 고객명, 도시, 총 구매수량을 구하기
+-- WITH total AS (
+--     SELECT name, city, customer_id
+--     FROM customers
+-- )
+-- SELECT t.name, t.city, SUM(o.amount) AS total_amount
+-- FROM total AS t
+-- JOIN orders AS o
+-- ON t.customer_id = o.customer_id
+-- GROUP BY t.name;
+
+--4 다음 조건을 2단계 CTE로 작성
+--조건 : 고객별 구매 금액 계산, 300 이상 고객만 필터
+WITH 
+sum_cte AS (
+    SELECT name, 
+)
