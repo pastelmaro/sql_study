@@ -242,7 +242,73 @@
 
 --4 다음 조건을 2단계 CTE로 작성
 --조건 : 고객별 구매 금액 계산, 300 이상 고객만 필터
-WITH 
-sum_cte AS (
-    SELECT name, 
-)
+-- WITH 
+-- sum_cte AS (
+--     SELECT c.name, SUM(o.amount) AS total_amount
+--     FROM customers AS c
+--     JOIN orders AS o
+--     ON c.customer_id = o.customer_id
+--     GROUP BY c.name
+-- ),
+-- filtered AS (
+--     SELECT *
+--     FROM sum_cte
+--     WHERE total_amount >= 300
+-- )
+-- SELECT *
+-- FROM filtered;
+
+--5 한 번도 주문하지 않은 고객 찾기
+-- WITH none_order AS (
+--     SELECT c.name, o.order_id
+--     FROM customers AS c
+--     LEFT JOIN orders AS o
+--     ON c.customer_id = o.customer_id
+-- )
+-- SELECT n.name
+-- FROM none_order AS n
+-- WHERE n.order_id IS NULL;
+
+--6 다음 요구사항을 3~4단계 CTE로 작성
+-- 주문 + 주문상세 + 상품 JOIN
+-- 고객별 실제 구매금액 계싼 (price * quantity)
+-- 고객별 합계 400 이상 고객만 금액 내림차순으로 표시
+--출력 : name | total_spent
+
+-- WITH 
+-- base AS (
+--     SELECT
+--         SUM(o.amount) AS total_amount,
+--         SUM(i.quantity) AS total_quantity,
+--         SUM(p.price) total_price,
+--         o.customer_id
+--     FROM order_items AS i
+--     JOIN orders AS o
+--     ON i.order_id = o.order_id
+--     JOIN products AS p
+--     ON i.product_id = p.product_id
+--     GROUP BY o.customer_id
+-- ),
+-- total_sale AS (
+--     SELECT 
+--         c.name,
+--         total_price * total_quantity AS total_spent
+--     FROM base AS b
+--     JOIN customers AS c
+--     ON c.customer_id = b.customer_id
+-- )
+-- SELECT *
+-- FROM total_sale
+-- WHERE total_spent >= 400
+-- ORDER BY total_spent DESC;
+
+--8 가입월별 가입자 수 구하기
+--출력 : signup_month | user_count
+-- WITH day AS (
+--     SELECT strftime("%Y-%m", signup_date) AS signup_month,
+--         COUNT(*)
+--     FROM customers
+--     GROUP BY signup_month
+-- )
+-- SELECT *
+-- FROM day
