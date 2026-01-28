@@ -52,3 +52,9 @@
 --     ) AS dense
 -- FROM EMPLOYEES
 
+--SUM() / AVG() 집계함수
+-- SELECT DISTINCT dept, 
+--     AVG(salary) OVER(
+--         PARTITION BY dept
+--     ) AS avg_salary
+-- FROM EMPLOYEES;
